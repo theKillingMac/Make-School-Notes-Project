@@ -11,8 +11,24 @@ import UIKit
 
 class NoteTableViewCell: UITableViewCell {
     
-    //Title and Data labels
+    // initialize the date formatter only once, using a static computed property
+    static var dateFormatter: NSDateFormatter = {
+        var formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-  
+    
+    var note: Note? {
+        didSet {
+            if let note = note, titleLabel = titleLabel, dateLabel = dateLabel {
+                titleLabel.text = note.title
+                dateLabel.text = NoteTableViewCell.dateFormatter.stringFromDate(note.modificationDate)
+            }
+        }
+    }
+    
+    
 }
