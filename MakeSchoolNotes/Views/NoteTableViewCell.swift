@@ -11,6 +11,7 @@ import UIKit
 
 class NoteTableViewCell: UITableViewCell {
     
+    //Title and Data labels
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
   
