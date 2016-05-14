@@ -22,33 +22,19 @@ class NotesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view, typically from a nib.
         tableView.dataSource = self
-        
-        let myNote = Note()
-        myNote.title   = "Super Simple Test Note"
-        myNote.content = "A long piece of content"
+        tableView.delegate = self
         
         do {
-            // Before you can add it to Realm you must first grab the default Realm.
             let realm = try Realm()
-            
-            // All changes to an object (addition, modification and deletion)
-            // must be done within a write transaction/closure.
-            try realm.write() {
-                // Add your new note to Realm
-                realm.add(myNote)
-            }
-            
-            //update our notes variable to contain all of the same data as our Realm database.
-            notes = realm.objects(Note)
-            
+            notes = realm.objects(Note).sorted("modificationDate", ascending: false)
         } catch {
             print("handle error")
         }
+        
     }
-
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -83,4 +69,68 @@ extension NotesViewController {
 
     }
     
+    @IBAction func unwindToSegue(segue: UIStoryboardSegue) {
+        
+        if let identifier = segue.identifier {
+            do {
+                let realm = try Realm()
+                
+                switch identifier {
+                    
+                    case "Save":
+                        // Grab a copy of NewNoteViewController to access the varibale currentNote
+                        let source = segue.sourceViewController as! NewNoteViewController
+                        
+                        try realm.write() {
+                            realm.add(source.currentNote!)
+                        }
+                        
+                    default:
+                        print("No one loves \(identifier)")
+                    
+                }
+                
+                // Realm allows for advanced sorting and query functionality for its stored objects. 
+                notes = realm.objects(Note).sorted("modificationDate", ascending: false)
+            } catch {
+                print("handle error")
+              }
+        }
+        
+    }
+    
+    
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //1
+        let selectedNote = notes[indexPath.row]
+        
+        // 2
+        //self.performSegueWithIdentifier("ShowExistingNote", sender: self)
+    }
+    
+    // 3
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    // Swipe left to delete, then deleting the note from realm too
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let note = notes[indexPath.row] as Object
+            
+            do {
+                let realm = try Realm()
+                try realm.write() {
+                    realm.delete(note)
+                }
+                
+                notes = realm.objects(Note).sorted("modificationDate", ascending: false)
+            } catch {
+                print("handle error")
+            }
+        }
+    }
+    
 }
+    

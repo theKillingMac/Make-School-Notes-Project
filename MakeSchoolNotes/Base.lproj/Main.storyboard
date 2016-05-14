@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--Dashboard-->
         <scene sceneID="CkP-n1-SP5">
             <objects>
                 <tableViewController id="Cx5-Qp-QQz" customClass="NotesViewController" customModule="MakeSchoolNotes" customModuleProvider="target" sceneMemberID="viewController">
@@ -45,11 +45,50 @@
                             <outlet property="delegate" destination="Cx5-Qp-QQz" id="ShE-9Q-Sqs"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Home" id="Fzv-hA-yQa"/>
+                    <navigationItem key="navigationItem" title="Dashboard" id="Fzv-hA-yQa">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="5vU-Tu-2n4">
+                            <connections>
+                                <segue destination="tZf-3L-FMB" kind="show" identifier="Add" id="XNK-Wg-pb0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lzf-Re-kSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1159" y="-183"/>
+        </scene>
+        <!--Add New Note-->
+        <scene sceneID="9Bd-K4-jB3">
+            <objects>
+                <viewController id="tZf-3L-FMB" customClass="NewNoteViewController" customModule="MakeSchoolNotes" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="U8L-Fb-CyZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Z92-FP-xxR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="23C-gw-Gvk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Add New Note" id="DG2-rY-0ja">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="eT9-Qc-Vbn">
+                            <connections>
+                                <segue destination="ga6-zt-Ykg" kind="unwind" identifier="Cancel" unwindAction="unwindToSegue:" id="v6C-nT-Gzp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Hcx-D6-faH">
+                            <connections>
+                                <segue destination="ga6-zt-Ykg" kind="unwind" identifier="Save" unwindAction="unwindToSegue:" id="mkV-sR-WzM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UhW-bv-POw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ga6-zt-Ykg" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1849" y="-183"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="avV-VO-hBd">
